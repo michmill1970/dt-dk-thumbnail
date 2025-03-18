@@ -20,8 +20,8 @@
 
 
 -- Uncomment the following 2 lines and replace with your values if the Lua library environment variables are not set
--- package.path = package.path .. ";/opt/hb-digikam.org.arm64/Cellar/luarocks/3.11.1/share/lua/5.4/?.lua"
--- package.cpath = package.cpath .. ";/opt/hb-digikam.org.arm64/lib/lua/5.4/?.so;/opt/hb-digikam.org.arm64/lib/lua/5.4/mime/?.so"
+-- package.path = package.path .. ";/opt/homebrew/Cellar/luarocks/3.11.1/share/lua/5.4/?.lua"
+-- package.cpath = package.cpath .. ";/opt/homebrew/lib/lua/5.4/?.so;/opt/homebrew/lib/lua/5.4/mime/?.so"
 
 local dt = require "darktable"
 local mime = require "mime"
