@@ -31,20 +31,11 @@ local function _(msgid)
   return gettext(msgid)
 end
 
--- Function to be called when Darktable exits
-local function on_exit()
-  dt.print("Darktable is exiting...")
-  -- Add any additional cleanup or actions here
-end
-
 -- Function to create a thumbnail of the current image and get its base64 encoding
 local function create_thumbnail()
   local selectedImages = dt.gui.selection()
   
   for _, image in ipairs(selectedImages) do
-
-    dt.print(dt.configuration.cache_dir)
-    image:generate_cache(true, 1, 2)
 
     -- Create the thumbnail image
     local temp_path = dt.configuration.tmp_dir .. "/thumbnail.jpg"  -- Use Darktable cache directory for the temporary path
@@ -122,9 +113,6 @@ local function create_thumbnail()
   
   end
 end
-
--- -- Register the on_exit function to be called when Darktable exits
--- dt.register_event("shutdown", on_exit)
 
 -- Register the create_thumbnail function to be called when a shortcut is pressed
 dt.register_event("Create XMP Thumbnail", "shortcut", 
