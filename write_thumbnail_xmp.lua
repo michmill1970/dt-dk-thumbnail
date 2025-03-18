@@ -1,3 +1,6 @@
+-- Darktable Lua script to write a thumbnail to the related XMP metadata files
+-- so digiKam can display the thumbnail in the digiKam Light Table view.
+
 -- Add the custom path to the Lua library search paths
 package.path = package.path .. ";/opt/hb-digikam.org.arm64/Cellar/luarocks/3.11.1/share/lua/5.4/?.lua"
 package.cpath = package.cpath .. ";/opt/hb-digikam.org.arm64/lib/lua/5.4/?.so;/opt/hb-digikam.org.arm64/lib/lua/5.4/mime/?.so"
