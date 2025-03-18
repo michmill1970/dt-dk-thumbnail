@@ -110,5 +110,5 @@ end
 dt.register_event("Create XMP Thumbnail", "shortcut", 
     function(event, shortcut)
       create_thumbnail()
-    end, _("Create Thumbnail")
+    end, _("Create XMP Thumbnail")
   )
