@@ -68,3 +68,9 @@ To view the thumbnails in digiKam, in the main menu navigate to Album->Reread me
 ## Known issues
 
 - Thumbnail rotation is incorrect for portrait orientation images in digiKam version 8.6.0 and earlier.  Fixed in digiKam 8.7.0.
+
+## Development Plan
+
+- Better documentation with screen shots
+- Add Darktable UI widget as an additional way to export the thumbnail
+- Add a thumbnail size option to the Darktable UI widget
