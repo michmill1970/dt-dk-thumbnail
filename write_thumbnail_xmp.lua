@@ -3,6 +3,7 @@ package.path = package.path .. ";/opt/hb-digikam.org.arm64/Cellar/luarocks/3.11.
 package.cpath = package.cpath .. ";/opt/hb-digikam.org.arm64/lib/lua/5.4/?.so;/opt/hb-digikam.org.arm64/lib/lua/5.4/mime/?.so"
 
 local dt = require "darktable"
+local dtdbg = require "lib/dtutils.debug"
 local mime = require "mime"
 local gettext = dt.gettext.gettext
 
@@ -21,6 +22,10 @@ local function create_thumbnail()
   local selectedImages = dt.gui.selection()
   
   for _, image in ipairs(selectedImages) do
+
+    dt.print(dt.configuration.cache_dir)
+    image:generate_cache(true, 1, 2)
+
     -- Create the thumbnail image
     local temp_path = dt.configuration.tmp_dir .. "/thumbnail.jpg"  -- Use Darktable cache directory for the temporary path
     local exporter = dt.new_format("jpeg")
@@ -54,18 +59,32 @@ local function create_thumbnail()
       -- Copy the XMP file by reading it line by line and writing it to a new file
       if xmp_file and xmp_temp_file then
         local preview_written = false
+        local previewsource_written = false
         for line in xmp_file:lines() do
-          -- Write the new base64 encoded thumbnail to the digiKam:Preview property of the XMP file
-          if string.find(line, 'digiKam:Preview=') and not preview_written then
-            xmp_temp_file:write('   digiKam:Preview="' .. base64_content .. '"\n')
-            preview_written = true
-          else
-            -- Write the line as is
-            xmp_temp_file:write(line .. "\n")
-            -- If the digiKam:Preview property is not present, add it after the xmp:Rating property
-            if string.find(line, 'xmp:Rating=') and not preview_written then
+
+          -- Skip the existing digiKam:PreviewSource property
+          if not string.find(line, 'digiKam:PreviewSource=') then
+
+            -- Write the new base64 encoded thumbnail to the digiKam:Preview property of the XMP file
+            if string.find(line, 'digiKam:Preview=') and not preview_written then
               xmp_temp_file:write('   digiKam:Preview="' .. base64_content .. '"\n')
               preview_written = true
+              if not previewsource_written then
+                xmp_temp_file:write('   digiKam:PreviewSource="dkdtLuaThumbnail"\n')
+                previewsource_written = true
+              end
+            else
+              -- Write the line as is
+              xmp_temp_file:write(line .. "\n")
+              -- If the digiKam:Preview property is not present, add it after the xmp:Rating property
+              if string.find(line, 'xmp:Rating=') and not preview_written then
+                xmp_temp_file:write('   digiKam:Preview="' .. base64_content .. '"\n')
+                preview_written = true
+                if not previewsource_written then
+                  xmp_temp_file:write('   digiKam:PreviewSource="dkdtLuaThumbnail"\n')
+                  previewsource_written = true
+                end
+              end
             end
           end
         end
@@ -88,7 +107,7 @@ end
 -- dt.register_event("shutdown", on_exit)
 
 -- Register the create_thumbnail function to be called when a shortcut is pressed
-dt.register_event("Create Thumbnail", "shortcut", 
+dt.register_event("Create XMP Thumbnail", "shortcut", 
     function(event, shortcut)
       create_thumbnail()
     end, _("Create Thumbnail")
