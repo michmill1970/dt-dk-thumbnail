@@ -26,8 +26,8 @@ There are a few settings in digiKam and Darktable that must be configured correc
 
 - Metadata->Behavior - Rescan file when files are modified
 - Metadata->Sidecars - Read from sidecar files: checked
-- Metadata->Sidecars - Write to sidecar files: checked (optional)
-- Metadata->Sidecars - Write to XMP sidecar only (optional)
+- Metadata->Sidecars - Write to sidecar files: checked
+- Metadata->Sidecars - Write to XMP sidecar only
 
 ## Installation
 
